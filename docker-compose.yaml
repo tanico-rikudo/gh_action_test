@@ -10,7 +10,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1  # ログのリアルタイム出力
     depends_on:
-      - db
+      - postgres-db
     networks:
       - app-network
     ports:
