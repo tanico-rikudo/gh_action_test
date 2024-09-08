@@ -8,3 +8,4 @@ uvicorn
 psycopg2
 alembic
 asyncpg
+pytest-cov
