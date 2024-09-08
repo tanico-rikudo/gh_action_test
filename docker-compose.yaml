@@ -1,0 +1,39 @@
+version: '3'
+services:
+  python-app:
+    container_name: python-app-container
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    volumes:
+      - ./app:/usr/app
+    environment:
+      - PYTHONUNBUFFERED=1  # ログのリアルタイム出力
+    depends_on:
+      - db
+    networks:
+      - app-network
+    ports:
+      - "8000:8000"
+
+  db:
+    build:
+      context: .
+      dockerfile: ./db/Dockerfile
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: fastapi_user      # PostgreSQLのユーザー
+      POSTGRES_PASSWORD: password      # PostgreSQLのパスワード
+      POSTGRES_DB: fastapi_db          # PostgreSQLのデータベース名
+    volumes:
+      - ./db/data:/var/lib/postgresql/data  # 永続化のためのボリューム
+      - ./script:/docker-entrypoint-initdb.d # この行を追加しただけ
+    networks:
+      - app-network
+    ports:
+      - "5432:5432"  # PostgreSQLのデフォルトポート
+    tty: true
+
+networks:
+  app-network:
+    driver: bridge
