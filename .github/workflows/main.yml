@@ -35,3 +35,19 @@ jobs:
           file: ./coverage.xml
           name: codecov-umbrella
           fail_ci_if_error: true
+  black:
+    name: Check code style with Black
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          cd app/src && pip install -r requirements.txt
+      - name: Check code style with Black
+        run: black --check --diff .
