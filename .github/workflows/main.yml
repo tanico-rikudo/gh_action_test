@@ -34,6 +34,7 @@ jobs:
         with:
           file: ./coverage.xml
           name: codecov-umbrella
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
   black:
     name: Check code style with Black
